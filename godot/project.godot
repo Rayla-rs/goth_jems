@@ -1,0 +1,53 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="peckerel"
+run/main_scene="uid://btph7ald3y0y1"
+config/features=PackedStringArray("4.4")
+
+[autoload]
+
+controller_autoload_singleton="*res://prefabs/Controller.tscn"
+
+[configuration]
+
+entry_symbol="gdext_rust_init"
+compatibility_minimum=4.1
+reloadable=true
+
+[dotnet]
+
+project/assembly_name="UnnamedProject"
+
+[global_group]
+
+vertex="Group tag for easy access to verticies!"
+unit="Group for all units!"
+
+[input]
+
+select={
+"deadzone": 0.2,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"canceled":false,"pressed":false,"double_click":false,"script":null)
+]
+}
+
+[libraries]
+
+linux.debug.x86_64="res://../rust/target/debug/libpeckerel_rust.so"
+linux.release.x86_64="res://../rust/target/release/libpeckerel_rust.so"
+windows.debug.x86_64="res://../rust/target/debug/peckerel_rust.dll"
+windows.release.x86_64="res://../rust/target/release/peckerel_rust.dll"
+macos.debug="res://../rust/target/debug/libpeckerel_rust.dylib"
+macos.release="res://../rust/target/release/libpeckerel_rust.dylib"
+macos.debug.arm64="res://../rust/target/debug/libpeckerel_rust.dylib"
+macos.release.arm64="res://../rust/target/release/libpeckerel_rust.dylib"
