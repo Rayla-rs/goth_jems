@@ -20,7 +20,7 @@ impl ResolveMatchesState {
 impl State for ResolveMatchesState {
     fn start(&mut self, _board: &Gd<Board>) {
         //TODO create destroy tweens
-        // create score tween
+        // create score ui tween
     }
 
     fn process(&mut self, _board: &Gd<Board>, _delta: f64) -> Instruction {

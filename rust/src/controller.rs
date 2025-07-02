@@ -4,6 +4,7 @@ use godot::{
     prelude::*,
 };
 
+/// Used for capturing the tile covered by the mouse.
 #[derive(GodotClass)]
 #[class(init, base = Node)]
 pub struct Controller {
@@ -30,6 +31,7 @@ impl INode for Controller {
 
             // Update hit field
             self.hit = if let Some(hit) = hits.front() {
+                // Extract from hit and get the parent node (assumed to be TileNode)
                 hit.get("collider")
                     .map(|collider| collider.to::<Gd<Node>>())
                     .and_then(|node| node.get_parent())

@@ -1,0 +1,30 @@
+[gd_scene load_steps=8 format=3 uid="uid://6goohv2il2ij"]
+
+[ext_resource type="Texture2D" uid="uid://bifqfmpoga5yl" path="res://assets/coffin.png" id="1_kbi2g"]
+[ext_resource type="Texture2D" uid="uid://dvxthaht2u7dy" path="res://assets/dagger.png" id="2_o8qqx"]
+[ext_resource type="Texture2D" uid="uid://5c48hlipca6r" path="res://assets/diamond.png" id="2_t3ude"]
+[ext_resource type="Texture2D" uid="uid://djfpmqkw3hru2" path="res://assets/eye-cosahedron.png" id="4_f6wvm"]
+[ext_resource type="Texture2D" uid="uid://bcmb02rjrpbfa" path="res://assets/pearl-spider.png" id="5_86w8u"]
+[ext_resource type="Texture2D" uid="uid://b5w6m8gi4koni" path="res://assets/teddy-bear.png" id="6_45g53"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o8qqx"]
+size = Vector2(64, 64)
+
+[node name="TileNode" type="TileNode" node_paths=PackedStringArray("sprite")]
+image_dict = {
+&"bear": ExtResource("6_45g53"),
+&"coffin": ExtResource("1_kbi2g"),
+&"dagger": ExtResource("2_o8qqx"),
+&"diamond": ExtResource("2_t3ude"),
+&"eye": ExtResource("4_f6wvm"),
+&"spider": ExtResource("5_86w8u")
+}
+sprite = NodePath("Sprite2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_kbi2g")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_o8qqx")

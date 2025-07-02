@@ -12,3 +12,6 @@ struct GothJems;
 
 #[gdextension]
 unsafe impl ExtensionLibrary for GothJems {}
+
+pub const SELECT_ACTION: &str = "select";
+pub const DESELECT_ACTION: &str = "deselect";

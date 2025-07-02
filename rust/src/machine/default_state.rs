@@ -1,11 +1,25 @@
-use super::state::*;
-use crate::board::Board;
-use godot::prelude::*;
+use super::{state::*, tile_selected::TileSelected};
+use crate::{SELECT_ACTION, board::Board};
+use godot::{classes::InputEvent, prelude::*};
 
 pub struct DefaultState;
 
+/// Base state for state machine. Added by default.
 impl State for DefaultState {
     fn process(&mut self, _board: &Gd<Board>, _delta: f64) -> Instruction {
         Instruction::Continue
+    }
+
+    fn input(&mut self, board: &Gd<Board>, input: Gd<InputEvent>) -> Instruction {
+        if input.is_action_pressed(SELECT_ACTION) {
+            if let Some(tile) = board.bind().hovered_tile() {
+                // Push selected state because tile node was selected
+                Instruction::Push(Box::new(TileSelected(tile)))
+            } else {
+                Instruction::Continue
+            }
+        } else {
+            Instruction::Continue
+        }
     }
 }

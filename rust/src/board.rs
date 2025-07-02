@@ -14,8 +14,6 @@ const THRESH: usize = 3;
 #[derive(GodotClass)]
 #[class(init, base = Node2D)]
 pub struct Board {
-    // TODO: state machine
-    // TODO: root_pos
     #[export]
     pub spacing: f32,
     #[export]
@@ -24,6 +22,8 @@ pub struct Board {
     pub grid: [[Option<Gd<TileNode>>; SIZE]; SIZE],
     base: Base<Node2D>,
 }
+
+// TODO build board
 
 /// Fully defined match specifying weather it is a row or colm
 pub enum Match {
@@ -57,6 +57,14 @@ impl GeneralMatch {
 }
 
 impl Board {
+    /// Get the tile hovered over from the controller
+    pub fn hovered_tile(&self) -> Option<Gd<TileNode>> {
+        match self.controller.as_ref() {
+            Some(controller) => controller.bind().hit.clone(),
+            None => None,
+        }
+    }
+
     pub fn needs_refresh(&self) -> bool {
         todo!()
     }

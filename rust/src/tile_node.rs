@@ -1,15 +1,8 @@
-use crate::{
-    board::{Board, SIZE},
-    tile::Tile,
+use crate::{board::Board, tile::Tile};
+use godot::{
+    classes::{ResourceLoader, Sprite2D, Texture2D, Tween},
+    prelude::*,
 };
-use godot::{classes::Tween, prelude::*};
-
-#[derive(Default)]
-pub enum TileState {
-    Matched,
-    #[default]
-    Default,
-}
 
 /// Postion of tile on board bounded by 0 and size.
 #[derive(Default, Clone, Copy, PartialEq, Eq, Debug)]
@@ -31,6 +24,10 @@ impl BoardPosition {
 #[derive(GodotClass)]
 #[class(init, base = Node2D)]
 pub struct TileNode {
+    #[export]
+    image_dict: Dictionary,
+    #[export]
+    sprite: Option<Gd<Sprite2D>>,
     pub pos: BoardPosition,
     // TODO set to random value on alloc
     pub tile: Tile,
@@ -63,8 +60,29 @@ impl TileNode {
         tween
     }
 
+    /// Instance and setup TileNode from prefab.
     pub fn instance_new_rand() -> Gd<Self> {
-        todo!()
+        // Instance from prefab
+        let mut node = ResourceLoader::singleton()
+            .load("res://prefabs/tile_node.tscn")
+            .unwrap()
+            .cast::<PackedScene>()
+            .instantiate_as::<TileNode>();
+
+        // Get random tile
+        let tile = Tile::rand();
+        node.bind_mut().tile = tile;
+
+        // Update sprite
+        node.bind().sprite.as_ref().unwrap().clone().set_texture(
+            &node
+                .bind()
+                .image_dict
+                .get(tile.to_gstring())
+                .unwrap()
+                .to::<Gd<Texture2D>>(),
+        );
+        node
     }
 }
 
