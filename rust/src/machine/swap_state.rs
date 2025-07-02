@@ -19,7 +19,7 @@ impl SwapState {
 
 impl State for SwapState {
     fn start(&mut self, board: &Gd<Board>) {
-        self.tweens = Some(board.clone().bind_mut().swap(self.a, self.b));
+        self.tweens = Some(Board::swap(board, self.a, self.b));
     }
 
     fn process(&mut self, board: &Gd<Board>, _delta: f64) -> Instruction {

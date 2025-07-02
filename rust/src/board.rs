@@ -1,5 +1,5 @@
 use crate::{
-    tile::Tile,
+    controller::Controller,
     tile_node::{BoardPosition, TileNode},
 };
 use godot::{classes::Tween, prelude::*};
@@ -18,6 +18,8 @@ pub struct Board {
     // TODO: root_pos
     #[export]
     pub spacing: f32,
+    #[export]
+    pub controller: Option<Gd<Controller>>,
     /// Changed to be nested vectors instead of strongly typed arrays for ease of use TODO
     pub grid: [[Option<Gd<TileNode>>; SIZE]; SIZE],
     base: Base<Node2D>,
@@ -68,18 +70,31 @@ impl Board {
             )
     }
 
-    pub fn swap(&mut self, a: BoardPosition, b: BoardPosition) -> [Gd<Tween>; 2] {
+    pub fn swap(board: &Gd<Board>, a: BoardPosition, b: BoardPosition) -> [Gd<Tween>; 2] {
         assert_ne!(a, b);
-        let tmp = self.get_tile(a);
-        self.set_tile(a, self.get_tile(b));
-        self.set_tile(b, tmp);
+        let tmp = board.clone().bind().get_tile(a);
+        board
+            .clone()
+            .bind_mut()
+            .set_tile(a, board.clone().bind().get_tile(b));
+        board.clone().bind_mut().set_tile(b, tmp);
 
         // Create tweens
         // a moves to a and b to b because tiles were already swaped
         // and their positions are out of sink
         [
-            self.get_tile(a).unwrap().bind_mut().tween_move(self, a),
-            self.get_tile(b).unwrap().bind_mut().tween_move(self, b),
+            board
+                .bind()
+                .get_tile(a)
+                .unwrap()
+                .bind_mut()
+                .tween_move(board, a),
+            board
+                .bind()
+                .get_tile(b)
+                .unwrap()
+                .bind_mut()
+                .tween_move(board, b),
         ]
     }
 

@@ -10,6 +10,7 @@ impl State for TileSelected {
     }
 
     fn input(&mut self, _board: &Gd<Board>, _input: Gd<InputEvent>) -> Instruction {
+        // need to track current node being hovered over
         todo!()
         // look for select other tile
         // deselect

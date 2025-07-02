@@ -56,7 +56,7 @@ impl TileNode {
         tween.tween_property(
             &self.base().clone(),
             "position",
-            &board.board_position_to_vec2(new_pos).to_variant(),
+            &board.bind().board_position_to_vec2(new_pos).to_variant(),
             TWEEN_DURATION,
         );
 
