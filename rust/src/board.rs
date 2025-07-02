@@ -24,7 +24,7 @@ pub struct Board {
 }
 
 /// Fully defined match specifying weather it is a row or colm
-enum Match {
+pub enum Match {
     Row(GeneralMatch),
     Colm(GeneralMatch),
 }
@@ -41,7 +41,7 @@ impl Match {
 
 /// Used for capturing info of a match without specifying weather it is a colm or row match
 #[derive(Clone, Copy)]
-struct GeneralMatch {
+pub struct GeneralMatch {
     offset: usize,
     start: usize,
     end: usize,
@@ -55,6 +55,10 @@ impl GeneralMatch {
 }
 
 impl Board {
+    pub fn needs_refresh(&self) -> bool {
+        todo!()
+    }
+
     /// Converts board position to tile_node position
     pub fn board_position_to_vec2(&self, board_position: BoardPosition) -> Vector2 {
         self.base().get_position()
@@ -153,7 +157,7 @@ impl Board {
     }
 
     // Gets all matches from board.
-    fn find_match_all(&self) -> Vec<Match> {
+    pub fn find_match_all(&self) -> Vec<Match> {
         // Find row matches and map to Match enum
         Board::find_general_match(self.get_grid())
             .iter()

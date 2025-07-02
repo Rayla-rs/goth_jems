@@ -16,10 +16,15 @@ pub enum TileState {
 pub struct BoardPosition(pub usize, pub usize);
 
 impl BoardPosition {
-    pub fn new(x: usize, y: usize) -> Self {
-        assert!(x < SIZE);
-        assert!(y < SIZE);
-        Self(x, y)
+    /// Gets the position bellow itself if there is one
+    pub fn bellow(self) -> Option<BoardPosition> {
+        let BoardPosition(x, y) = self;
+        x.checked_sub(1).map(|x| BoardPosition(x, y))
+    }
+
+    /// Gets the position above the board position.
+    pub fn above(self) -> BoardPosition {
+        BoardPosition(self.0 + 1, self.1)
     }
 }
 
@@ -38,7 +43,7 @@ const TWEEN_DURATION: f64 = 1f64;
 impl TileNode {
     /// Moves node to new pos with a tween. Use tween.is_running() to check if
     /// it has finished executing
-    pub fn tween_move(&mut self, board: &Board, new_pos: BoardPosition) -> Gd<Tween> {
+    pub fn tween_move(&mut self, board: &Gd<Board>, new_pos: BoardPosition) -> Gd<Tween> {
         self.pos = new_pos;
 
         // Create move tween
@@ -56,6 +61,10 @@ impl TileNode {
         );
 
         tween
+    }
+
+    pub fn instance_new_rand() -> Gd<Self> {
+        todo!()
     }
 }
 
