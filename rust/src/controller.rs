@@ -19,6 +19,7 @@ impl INode for Controller {
             // Query the world 2d for a intersection
             let mut query = PhysicsPointQueryParameters2D::new_gd();
             query.set_position(res.get_position());
+            query.set_collide_with_areas(true);
             let hits = self
                 .base()
                 .get_viewport()

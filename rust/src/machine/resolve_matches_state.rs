@@ -18,16 +18,31 @@ impl ResolveMatchesState {
 }
 
 impl State for ResolveMatchesState {
-    fn start(&mut self, _board: &Gd<Board>) {
+    fn start(&mut self, board: &Gd<Board>) {
         //TODO create destroy tweens
         // create score ui tween
+
+        self.matches.iter().for_each(|r#match| match r#match {
+            Match::Row(row) => {
+                // TODO
+            }
+            Match::Colm(colm) => {
+                // TODO
+            }
+        });
     }
 
-    fn process(&mut self, _board: &Gd<Board>, _delta: f64) -> Instruction {
+    fn process(&mut self, board: &Gd<Board>, _delta: f64) -> Instruction {
         if self.tweens.iter_mut().all(|tween| !tween.is_running()) {
             // Start refreshing board state to return to rest
-            Instruction::DropPush(Box::new(RefreshBoardState::default()))
+            if board.bind().needs_refresh() {
+                Instruction::DropPush(Box::new(RefreshBoardState::default()))
+            } else {
+                // Refresh not needed
+                Instruction::Next
+            }
         } else {
+            // Still tweening
             Instruction::Continue
         }
     }

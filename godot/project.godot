@@ -14,10 +14,6 @@ config/name="peckerel"
 run/main_scene="uid://btph7ald3y0y1"
 config/features=PackedStringArray("4.4")
 
-[autoload]
-
-controller_autoload_singleton="*res://prefabs/Controller.tscn"
-
 [configuration]
 
 entry_symbol="gdext_rust_init"

@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://c3o6x0cs8rs4o"]
+
+[node name="Board" type="Board"]
+spacing = 64.0
+
+[node name="MachineNode" type="MachineNode" parent="." node_paths=PackedStringArray("board")]
+board = NodePath("..")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(580, 325)

@@ -19,6 +19,18 @@ impl BoardPosition {
     pub fn above(self) -> BoardPosition {
         BoardPosition(self.0 + 1, self.1)
     }
+
+    /// Checks if self and other are neighbours
+    pub fn is_neighbour_of(self, other: Self) -> bool {
+        other != self
+            && [
+                BoardPosition(self.0 + 1, self.1),
+                BoardPosition(self.0.saturating_sub(1), self.1),
+                BoardPosition(self.0, self.1 + 1),
+                BoardPosition(self.0, self.1.saturating_sub(1)),
+            ]
+            .contains(&other)
+    }
 }
 
 #[derive(GodotClass)]

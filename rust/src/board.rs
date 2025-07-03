@@ -16,9 +16,8 @@ const THRESH: usize = 3;
 pub struct Board {
     #[export]
     pub spacing: f32,
-    #[export]
     pub controller: Option<Gd<Controller>>,
-    /// Changed to be nested vectors instead of strongly typed arrays for ease of use TODO
+    // Changed to be nested vectors instead of strongly typed arrays for ease of use TODO
     pub grid: [[Option<Gd<TileNode>>; SIZE]; SIZE],
     base: Base<Node2D>,
 }
@@ -29,6 +28,29 @@ pub struct Board {
 pub enum Match {
     Row(GeneralMatch),
     Colm(GeneralMatch),
+}
+
+#[godot_api]
+impl INode2D for Board {
+    fn ready(&mut self) {
+        // Initialize grid with new tiles
+        // TODO: prevent matches in inital group
+        (0..SIZE).for_each(|x| {
+            (0..SIZE).for_each(|y| {
+                let mut node = TileNode::instance_new_rand();
+                self.base_mut().add_child(&node);
+                let pos = BoardPosition(x, y);
+                node.set_global_position(self.board_position_to_vec2(pos));
+                node.bind_mut().pos = pos;
+                self.grid[x][y] = Some(node);
+            })
+        });
+
+        // Instance controller
+        let controller = Controller::new_alloc();
+        self.base_mut().add_child(&controller);
+        self.controller = Some(controller);
+    }
 }
 
 impl Match {
@@ -66,7 +88,7 @@ impl Board {
     }
 
     pub fn needs_refresh(&self) -> bool {
-        todo!()
+        !self.grid.iter().flat_map(|row| row.iter()).contains(&None)
     }
 
     /// Converts board position to tile_node position
@@ -80,11 +102,9 @@ impl Board {
 
     pub fn swap(board: &Gd<Board>, a: BoardPosition, b: BoardPosition) -> [Gd<Tween>; 2] {
         assert_ne!(a, b);
-        let tmp = board.clone().bind().get_tile(a);
-        board
-            .clone()
-            .bind_mut()
-            .set_tile(a, board.clone().bind().get_tile(b));
+        let tmp = board.bind().get_tile(a).clone();
+        let b_tile = board.bind().get_tile(b).clone();
+        board.clone().bind_mut().set_tile(a, b_tile);
         board.clone().bind_mut().set_tile(b, tmp);
 
         // Create tweens
