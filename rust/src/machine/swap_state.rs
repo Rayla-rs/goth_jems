@@ -1,19 +1,23 @@
 use super::state::*;
-use crate::{
-    board::Board, machine::resolve_matches_state::ResolveMatchesState, tile_node::BoardPosition,
-};
+use crate::{board::Board, machine::resolve_matches_state::ResolveMatchesState};
 use godot::{classes::Tween, prelude::*};
 
 /// Swaps two tiles in the board
 pub struct SwapState {
-    pub a: BoardPosition,
-    pub b: BoardPosition,
+    pub a: (usize, usize),
+    pub b: (usize, usize),
     tweens: Option<[Gd<Tween>; 2]>,
+    swaping_back: bool,
 }
 
 impl SwapState {
-    pub fn new(a: BoardPosition, b: BoardPosition) -> Self {
-        Self { a, b, tweens: None }
+    pub fn new(a: (usize, usize), b: (usize, usize), swaping_back: bool) -> Self {
+        Self {
+            a,
+            b,
+            tweens: None,
+            swaping_back,
+        }
     }
 }
 
@@ -31,13 +35,18 @@ impl State for SwapState {
             .all(|tween| !tween.is_running())
         {
             true => {
-                let matches = board.bind().find_match_all();
-                if !matches.is_empty() {
-                    // Swap failed so undo action
-                    Instruction::DropPush(Box::new(SwapState::new(self.b, self.a)))
+                // handle back swap case
+                if self.swaping_back {
+                    Instruction::Next
                 } else {
-                    // Swap succeeded (board has match) so resolve matches
-                    Instruction::DropPush(Box::new(ResolveMatchesState::new(matches)))
+                    let matches = board.bind().find_matches_all();
+                    if !matches.is_empty() {
+                        // Swap failed so undo action
+                        Instruction::DropPush(Box::new(SwapState::new(self.b, self.a, true)))
+                    } else {
+                        // Swap succeeded (board has match) so resolve matches
+                        Instruction::DropPush(Box::new(ResolveMatchesState::new(matches)))
+                    }
                 }
             }
             // Not done so continue

@@ -44,11 +44,11 @@ impl State for TileSelected {
             Instruction::Next
         } else if input.is_action_pressed(SELECT_ACTION) {
             if let Some(hover) = board.bind().hovered_tile() {
-                let a = self.0.bind().pos;
-                let b = hover.bind().pos;
+                let a = self.0.bind().index;
+                let b = hover.bind().index;
                 // Are a and b ajacent
-                if a.is_neighbour_of(b) {
-                    return Instruction::DropPush(Box::new(SwapState::new(a, b)));
+                if neighbours(a, b) {
+                    return Instruction::DropPush(Box::new(SwapState::new(a, b, false)));
                 }
             }
             // On fail treat as deselect
@@ -57,4 +57,15 @@ impl State for TileSelected {
             Instruction::Continue
         }
     }
+}
+
+fn neighbours(a: (usize, usize), b: (usize, usize)) -> bool {
+    a != b
+        && [
+            (a.0 + 1, a.1),
+            (a.0.saturating_sub(1), a.1),
+            (a.0, a.1 + 1),
+            (a.0, a.1.saturating_sub(1)),
+        ]
+        .contains(&b)
 }

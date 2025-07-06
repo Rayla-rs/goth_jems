@@ -4,35 +4,6 @@ use godot::{
     prelude::*,
 };
 
-/// Postion of tile on board bounded by 0 and size.
-#[derive(Default, Clone, Copy, PartialEq, Eq, Debug)]
-pub struct BoardPosition(pub usize, pub usize);
-
-impl BoardPosition {
-    /// Gets the position bellow itself if there is one
-    pub fn bellow(self) -> Option<BoardPosition> {
-        let BoardPosition(x, y) = self;
-        x.checked_sub(1).map(|x| BoardPosition(x, y))
-    }
-
-    /// Gets the position above the board position.
-    pub fn above(self) -> BoardPosition {
-        BoardPosition(self.0 + 1, self.1)
-    }
-
-    /// Checks if self and other are neighbours
-    pub fn is_neighbour_of(self, other: Self) -> bool {
-        other != self
-            && [
-                BoardPosition(self.0 + 1, self.1),
-                BoardPosition(self.0.saturating_sub(1), self.1),
-                BoardPosition(self.0, self.1 + 1),
-                BoardPosition(self.0, self.1.saturating_sub(1)),
-            ]
-            .contains(&other)
-    }
-}
-
 #[derive(GodotClass)]
 #[class(init, base = Node2D)]
 pub struct TileNode {
@@ -40,7 +11,7 @@ pub struct TileNode {
     image_dict: Dictionary,
     #[export]
     sprite: Option<Gd<Sprite2D>>,
-    pub pos: BoardPosition,
+    pub index: (usize, usize),
     // TODO set to random value on alloc
     pub tile: Tile,
     base: Base<Node2D>,
@@ -52,8 +23,8 @@ const TWEEN_DURATION: f64 = 1f64;
 impl TileNode {
     /// Moves node to new pos with a tween. Use tween.is_running() to check if
     /// it has finished executing
-    pub fn tween_move(&mut self, board: &Gd<Board>, new_pos: BoardPosition) -> Gd<Tween> {
-        self.pos = new_pos;
+    pub fn tween_move(&mut self, board: &Gd<Board>, new_index: (usize, usize)) -> Gd<Tween> {
+        self.index = new_index;
 
         // Create move tween
         let mut tween = self
@@ -65,7 +36,7 @@ impl TileNode {
         tween.tween_property(
             &self.base().clone(),
             "position",
-            &board.bind().board_position_to_vec2(new_pos).to_variant(),
+            &board.bind().index_to_vec2(new_index).to_variant(),
             TWEEN_DURATION,
         );
 
