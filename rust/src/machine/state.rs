@@ -11,12 +11,12 @@ pub enum Instruction {
 
 /// State trait to impliment behaviour for the state machine
 pub trait State {
-    fn process(&mut self, _board: &Gd<Board>, _delta: f64) -> Instruction;
-    fn input(&mut self, _board: &Gd<Board>, _input: Gd<InputEvent>) -> Instruction {
+    fn process(&mut self, _board: &mut Gd<Board>, _delta: f64) -> Instruction;
+    fn input(&mut self, _board: &mut Gd<Board>, _input: Gd<InputEvent>) -> Instruction {
         Instruction::Continue
     }
-    fn start(&mut self, _board: &Gd<Board>) {}
-    fn end(&mut self, _board: &Gd<Board>) {}
-    fn pause(&mut self, _board: &Gd<Board>) {}
-    fn resume(&mut self, _board: &Gd<Board>) {}
+    fn start(&mut self, _board: &mut Gd<Board>) {}
+    fn end(&mut self, _board: &mut Gd<Board>) {}
+    fn pause(&mut self, _board: &mut Gd<Board>) {}
+    fn resume(&mut self, _board: &mut Gd<Board>) {}
 }

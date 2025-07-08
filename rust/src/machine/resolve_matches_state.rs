@@ -18,7 +18,7 @@ impl ResolveMatchesState {
 }
 
 impl State for ResolveMatchesState {
-    fn start(&mut self, board: &Gd<Board>) {
+    fn start(&mut self, board: &mut Gd<Board>) {
         //TODO create destroy tweens
         // create score ui tween
         self.matches
@@ -29,7 +29,7 @@ impl State for ResolveMatchesState {
             });
     }
 
-    fn process(&mut self, board: &Gd<Board>, _delta: f64) -> Instruction {
+    fn process(&mut self, board: &mut Gd<Board>, _delta: f64) -> Instruction {
         if self.tweens.iter_mut().all(|tween| !tween.is_running()) {
             // Start refreshing board state to return to rest
             if board.bind().needs_refresh() {

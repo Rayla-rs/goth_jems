@@ -22,11 +22,11 @@ impl SwapState {
 }
 
 impl State for SwapState {
-    fn start(&mut self, board: &Gd<Board>) {
+    fn start(&mut self, board: &mut Gd<Board>) {
         self.tweens = Some(Board::swap(board, self.a, self.b));
     }
 
-    fn process(&mut self, board: &Gd<Board>, _delta: f64) -> Instruction {
+    fn process(&mut self, board: &mut Gd<Board>, _delta: f64) -> Instruction {
         match self
             .tweens
             .as_mut()

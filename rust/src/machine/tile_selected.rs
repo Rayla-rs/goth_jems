@@ -11,7 +11,7 @@ use godot::{
 pub struct TileSelected(pub Gd<TileNode>);
 
 impl State for TileSelected {
-    fn start(&mut self, _board: &Gd<Board>) {
+    fn start(&mut self, _board: &mut Gd<Board>) {
         // Select anim
         let mut tween = self.0.bind_mut().base_mut().create_tween().unwrap();
         tween.tween_property(
@@ -23,7 +23,7 @@ impl State for TileSelected {
         tween.set_trans(TransitionType::EXPO);
     }
 
-    fn end(&mut self, _board: &Gd<Board>) {
+    fn end(&mut self, _board: &mut Gd<Board>) {
         // Deselect anim
         let mut tween = self.0.bind_mut().base_mut().create_tween().unwrap();
         tween.tween_property(
@@ -35,11 +35,11 @@ impl State for TileSelected {
         tween.set_trans(TransitionType::EXPO);
     }
 
-    fn process(&mut self, _board: &Gd<Board>, _delta: f64) -> Instruction {
+    fn process(&mut self, _board: &mut Gd<Board>, _delta: f64) -> Instruction {
         Instruction::Continue
     }
 
-    fn input(&mut self, board: &Gd<Board>, input: Gd<InputEvent>) -> Instruction {
+    fn input(&mut self, board: &mut Gd<Board>, input: Gd<InputEvent>) -> Instruction {
         if input.is_action_pressed(DESELECT_ACTION) {
             Instruction::Next
         } else if input.is_action_pressed(SELECT_ACTION) {

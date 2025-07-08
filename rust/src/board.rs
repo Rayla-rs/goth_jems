@@ -127,6 +127,9 @@ impl Board {
 
     // Gets all colm matches
     fn find_matches(grid: &Grid<Option<Gd<TileNode>>>) -> Vec<Vec<(usize, usize)>> {
+        // TODO: rework to look ahead for patterns instead
+        // if finds pattern take it and move forward equal to its len
+
         // Remap map to the tiles contained by the nodes
         let grid = grid.clone().map(|elem| elem.unwrap().bind().tile);
         let mut matches = Vec::new();

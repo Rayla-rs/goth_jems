@@ -15,11 +15,11 @@ pub struct MoveState {
     // tween: Gd<Tween>,
 }
 impl State for MoveState {
-    fn start(&mut self, _board: &Gd<Board>) {
+    fn start(&mut self, _board: &mut Gd<Board>) {
         // self.tween.play();
     }
 
-    fn process(&mut self, _board: &Gd<Board>, _delta: f64) -> Instruction {
+    fn process(&mut self, _board: &mut Gd<Board>, _delta: f64) -> Instruction {
         todo!()
     }
 }

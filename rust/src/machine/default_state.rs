@@ -6,11 +6,11 @@ pub struct DefaultState;
 
 /// Base state for state machine. Added by default.
 impl State for DefaultState {
-    fn process(&mut self, _board: &Gd<Board>, _delta: f64) -> Instruction {
+    fn process(&mut self, _board: &mut Gd<Board>, _delta: f64) -> Instruction {
         Instruction::Continue
     }
 
-    fn input(&mut self, board: &Gd<Board>, input: Gd<InputEvent>) -> Instruction {
+    fn input(&mut self, board: &mut Gd<Board>, input: Gd<InputEvent>) -> Instruction {
         if input.is_action_pressed(SELECT_ACTION) {
             if let Some(tile) = board.bind().hovered_tile() {
                 // Push selected state because tile node was selected

@@ -9,13 +9,13 @@ pub struct Machine {
     stack: Vec<Box<dyn State>>,
 }
 
-pub struct MachineUpdate<'a>(&'a Gd<Board>, MachineUpdateVarients);
+pub struct MachineUpdate<'a>(&'a mut Gd<Board>, MachineUpdateVarients);
 
 impl<'a> MachineUpdate<'a> {
-    pub fn process(board: &'a Gd<Board>, delta: f64) -> MachineUpdate<'a> {
+    pub fn process(board: &'a mut Gd<Board>, delta: f64) -> MachineUpdate<'a> {
         MachineUpdate(board, MachineUpdateVarients::Delta(delta))
     }
-    pub fn input(board: &'a Gd<Board>, event: &Gd<InputEvent>) -> MachineUpdate<'a> {
+    pub fn input(board: &'a mut Gd<Board>, event: &Gd<InputEvent>) -> MachineUpdate<'a> {
         MachineUpdate(board, MachineUpdateVarients::Input(event.clone()))
     }
 }

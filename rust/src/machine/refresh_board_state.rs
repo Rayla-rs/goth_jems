@@ -12,16 +12,20 @@ pub struct RefreshBoardState {
 }
 
 impl State for RefreshBoardState {
-    fn start(&mut self, board: &Gd<Board>) {
-        let mut iter = board.bind().grid.clone().into_iter();
-
+    fn start(&mut self, board: &mut Gd<Board>) {
         // For top row
         // col = 0
         // Note: due to borrow rules i am refactoring this to use standard for loops so
         // values can be copied on the stack
-        board.bind().grid.indexed_iter().for_each(|(index, tile)| {
-            if index.1 == 0 {
-                if tile.is_none() {
+        let rows = board.bind().grid.rows();
+        let cols = board.bind().grid.cols();
+
+        for row in 0..rows {
+            for col in 0..cols {
+                let index = (row, col);
+                let tile = board.bind().get_tile(index).clone();
+
+                if index.1 == 0 && tile.is_none() {
                     // Tile is on the top row and is empty
                     // Spawn a new tile there and move it into place from above
 
@@ -31,26 +35,26 @@ impl State for RefreshBoardState {
                         board.bind().index_to_vec2(index) - Vector2::new(0.0, board.bind().spacing),
                     );
                     // Add to tree for godot
-                    board.clone().add_child(&tile_node);
+                    board.add_child(&tile_node);
                     // Add move tween
                     self.tweens
                         .push(tile_node.bind_mut().tween_move(board, index));
                     // Set tile in board
-                    board.clone().bind_mut().set_tile(index, Some(tile_node));
-                }
-            } else {
-                if let Some(tile) = tile.as_ref() {
-                    let bellow_index = (tile.bind().index.0, tile.bind().index.1 + 1);
-                    if let Some(bellow) = board.bind().grid.get(bellow_index.0, bellow_index.1) {
-                        if bellow.is_none() {
+                    board.bind_mut().set_tile(index, Some(tile_node));
+                } else {
+                    if let Some(tile) = tile.as_ref() {
+                        let bellow_index = (tile.bind().index.0, tile.bind().index.1 + 1);
+                        if board
+                            .bind()
+                            .grid
+                            .get(bellow_index.0, bellow_index.1)
+                            .is_some_and(|bellow| bellow.is_none())
+                        {
                             // Tile is not the top or bottum row, is some, and is above a none space
 
                             // Move to space bellow
-                            board
-                                .clone()
-                                .bind_mut()
-                                .set_tile(bellow_index, Some(tile.clone()));
-                            board.clone().bind_mut().set_tile(tile.bind().index, None);
+                            board.bind_mut().set_tile(bellow_index, Some(tile.clone()));
+                            board.bind_mut().set_tile(tile.bind().index, None);
 
                             // Add tween to tweens
                             self.tweens
@@ -59,10 +63,10 @@ impl State for RefreshBoardState {
                     }
                 }
             }
-        });
+        }
     }
 
-    fn process(&mut self, board: &Gd<Board>, _delta: f64) -> Instruction {
+    fn process(&mut self, board: &mut Gd<Board>, _delta: f64) -> Instruction {
         if self.tweens.iter_mut().all(|tween| !tween.is_running()) {
             if board.bind().needs_refresh() {
                 // Needs anouther refresh

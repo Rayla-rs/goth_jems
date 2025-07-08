@@ -15,11 +15,11 @@ pub struct MachineNode {
 impl INode for MachineNode {
     fn process(&mut self, delta: f64) {
         self.machine
-            .update(MachineUpdate::process(self.board.as_ref().unwrap(), delta));
+            .update(MachineUpdate::process(self.board.as_mut().unwrap(), delta));
     }
 
     fn input(&mut self, event: Gd<InputEvent>) {
         self.machine
-            .update(MachineUpdate::input(self.board.as_ref().unwrap(), &event));
+            .update(MachineUpdate::input(self.board.as_mut().unwrap(), &event));
     }
 }
