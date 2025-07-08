@@ -44,7 +44,7 @@ impl TileNode {
     }
 
     /// Instance and setup TileNode from prefab.
-    pub fn instance_new_rand() -> Gd<Self> {
+    pub fn instance_new(tile: Tile) -> Gd<Self> {
         // Instance from prefab
         let mut node = ResourceLoader::singleton()
             .load("res://prefabs/tile_node.tscn")
@@ -52,8 +52,6 @@ impl TileNode {
             .cast::<PackedScene>()
             .instantiate_as::<TileNode>();
 
-        // Get random tile
-        let tile = Tile::rand();
         node.bind_mut().tile = tile;
 
         // Update sprite

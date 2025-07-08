@@ -1,6 +1,7 @@
 use super::state::*;
 use crate::board::Board;
 use crate::machine::resolve_matches_state::ResolveMatchesState;
+use crate::tile::Tile;
 use crate::tile_node::TileNode;
 use godot::classes::Tween;
 use godot::prelude::*;
@@ -12,17 +13,19 @@ pub struct RefreshBoardState {
 
 impl State for RefreshBoardState {
     fn start(&mut self, board: &Gd<Board>) {
-        let mut iter = board.clone().bind_mut().grid.clone().into_iter();
+        let mut iter = board.bind().grid.clone().into_iter();
 
         // For top row
         // col = 0
+        // Note: due to borrow rules i am refactoring this to use standard for loops so
+        // values can be copied on the stack
         board.bind().grid.indexed_iter().for_each(|(index, tile)| {
             if index.1 == 0 {
                 if tile.is_none() {
                     // Tile is on the top row and is empty
                     // Spawn a new tile there and move it into place from above
 
-                    let mut tile_node = TileNode::instance_new_rand();
+                    let mut tile_node = TileNode::instance_new(Tile::rand());
                     // set position to tile position offseted up by one
                     tile_node.set_position(
                         board.bind().index_to_vec2(index) - Vector2::new(0.0, board.bind().spacing),

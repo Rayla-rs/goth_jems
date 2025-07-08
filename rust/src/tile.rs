@@ -28,6 +28,19 @@ impl Tile {
         }
     }
 
+    /// Returns vector of tiles
+    /// Used in grid generation!
+    pub fn get_vec() -> Vec<Tile> {
+        vec![
+            Tile::Dagger,
+            Tile::Coffin,
+            Tile::Spider,
+            Tile::Bear,
+            Tile::Diamond,
+            Tile::Eye,
+        ]
+    }
+
     /// Godot string representation for tile node dictionary access
     pub fn to_gstring(self) -> GString {
         GString::from(match self {

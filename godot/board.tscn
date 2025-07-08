@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c3o6x0cs8rs4o"]
 
 [node name="Board" type="Board"]
+position = Vector2(0, -1)
 
 [node name="MachineNode" type="MachineNode" parent="." node_paths=PackedStringArray("board")]
 board = NodePath("..")

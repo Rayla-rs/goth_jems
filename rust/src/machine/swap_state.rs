@@ -40,7 +40,7 @@ impl State for SwapState {
                     Instruction::Next
                 } else {
                     let matches = board.bind().find_matches_all();
-                    if !matches.is_empty() {
+                    if matches.is_empty() {
                         // Swap failed so undo action
                         Instruction::DropPush(Box::new(SwapState::new(self.b, self.a, true)))
                     } else {

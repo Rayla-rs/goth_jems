@@ -21,6 +21,12 @@ impl State for ResolveMatchesState {
     fn start(&mut self, board: &Gd<Board>) {
         //TODO create destroy tweens
         // create score ui tween
+        self.matches
+            .iter()
+            .flat_map(|r#match| r#match.iter())
+            .for_each(|index| {
+                Board::remove_tile(board, *index);
+            });
     }
 
     fn process(&mut self, board: &Gd<Board>, _delta: f64) -> Instruction {

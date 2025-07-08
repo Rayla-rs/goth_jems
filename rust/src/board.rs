@@ -1,12 +1,13 @@
-use crate::{controller::Controller, tile_node::TileNode};
+use crate::{controller::Controller, tile::Tile, tile_node::TileNode};
 use godot::{classes::Tween, prelude::*};
 use grid::Grid;
 use itertools::Itertools;
+use rand::seq::IndexedRandom;
 
 /// Board dimensions (nxn)
 pub const SIZE: usize = 8;
 /// Match threshold
-const THRESH: usize = 3;
+pub const THRESH: usize = 2;
 
 /// Game board for goth bejewled!
 #[derive(GodotClass)]
@@ -31,8 +32,9 @@ impl INode2D for Board {
     }
 
     fn ready(&mut self) {
-        self.grid = Grid::with_capacity(SIZE, SIZE);
-        self.setup();
+        // Generate grid
+        self.generate(SIZE);
+
         // Instance controller
         let controller = Controller::new_alloc();
         self.base_mut().add_child(&controller);
@@ -44,17 +46,6 @@ impl INode2D for Board {
 // type Coord = (usize, usize);
 
 impl Board {
-    pub fn setup(&mut self) {
-        //wfc time?
-        self.grid.clone().indexed_iter().for_each(|(index, _)| {
-            let mut node = TileNode::instance_new_rand();
-            self.base_mut().add_child(&node);
-            node.set_global_position(self.index_to_vec2(index));
-            node.bind_mut().index = index;
-            self.grid[index] = Some(node);
-        });
-    }
-
     /// Get the tile hovered over from the controller
     pub fn hovered_tile(&self) -> Option<Gd<TileNode>> {
         match self.controller.as_ref() {
@@ -64,16 +55,15 @@ impl Board {
     }
 
     pub fn needs_refresh(&self) -> bool {
-        !self.grid.iter().contains(&None)
+        self.grid.iter().contains(&None)
     }
 
     /// Converts board position to tile_node position
     pub fn index_to_vec2(&self, index: (usize, usize)) -> Vector2 {
-        self.base().get_position()
-            + Vector2::new(
-                self.spacing * (index.0 as f32),
-                self.spacing * (index.1 as f32),
-            )
+        Vector2::new(
+            self.spacing * (index.0 as f32),
+            self.spacing * (index.1 as f32),
+        )
     }
 
     pub fn swap(board: &Gd<Board>, a: (usize, usize), b: (usize, usize)) -> [Gd<Tween>; 2] {
@@ -100,6 +90,12 @@ impl Board {
                 .bind_mut()
                 .tween_move(board, b),
         ]
+    }
+
+    pub fn remove_tile(board: &Gd<Board>, index: (usize, usize)) {
+        board.bind().get_tile(index).unwrap().queue_free();
+        board.clone().bind_mut().set_tile(index, None);
+        // TODO -> return tween
     }
 
     pub fn get_tile(&self, index: (usize, usize)) -> Option<Gd<TileNode>> {
@@ -131,37 +127,34 @@ impl Board {
 
     // Gets all colm matches
     fn find_matches(grid: &Grid<Option<Gd<TileNode>>>) -> Vec<Vec<(usize, usize)>> {
+        // Remap map to the tiles contained by the nodes
+        let grid = grid.clone().map(|elem| elem.unwrap().bind().tile);
         let mut matches = Vec::new();
-        for row in (0..grid.rows()) {
+        for row in 0..grid.rows() {
             // Setup state vars
             let mut start_col = 0;
-            let mut start_tile = grid[(row, start_col)]
-                .clone()
-                .as_ref()
-                .map(|tile| tile.bind().tile);
+            let mut start_tile = grid[(row, start_col)];
 
             // Iterate through colm
-            for col in (1..grid.cols() - 1) {
-                let current_tile = grid[(row, col)]
-                    .clone()
-                    .as_ref()
-                    .map(|tile| tile.bind().tile);
+            for col in 1..grid.cols() - 1 {
+                let current_tile = grid[(row, col)];
                 if start_tile != current_tile {
                     if col - start_col > THRESH {
                         // Broke condition
                         // Add match and reset state vars
                         matches.push((start_col..col).map(|col| (row, col)).collect_vec());
-                        start_col = col;
-                        start_tile = current_tile;
                     }
+                    start_col = col;
+                    start_tile = current_tile;
                 }
             }
 
             // Check for match at end
-            if grid.cols() - start_col > THRESH {
+            if start_tile == grid[(row, grid.cols() - 1)] && grid.cols() - start_col > THRESH {
                 matches.push((start_col..grid.cols()).map(|col| (row, col)).collect_vec());
             }
         }
+
         matches
     }
 
@@ -169,5 +162,58 @@ impl Board {
     /// Can include the same tile up to twice if a row and colm match both contain it.
     fn score_matches(matches: &Vec<Vec<(usize, usize)>>) -> usize {
         matches.len() * matches.iter().fold(0, |acc, e| acc + e.len())
+    }
+
+    fn generate(&mut self, size: usize) {
+        let mut rng = rand::rng();
+        self.grid = Grid::init(size, size, None);
+
+        // Because of the order in witch we populate the grid, we only need to check for
+        // matches above and to the left of a tile
+        //
+        // Generate from left to right and top to bottum
+        // Cannot fail because their are more than 2 tile varients!
+        for x in 0..size {
+            for y in 0..size {
+                let index = (x, y);
+                let mut possible_tiles = Tile::get_vec();
+                // Check left for match
+                if x >= THRESH {
+                    let _ = ((x - THRESH)..x)
+                        .map(|x| {
+                            self.grid[(x, y)]
+                                .as_ref()
+                                .expect("Should have already been processed and therfore be Some!")
+                                .bind()
+                                .tile
+                        })
+                        .all_equal_value()
+                        .inspect(|value| possible_tiles.retain(|elem| elem != value));
+                }
+                // Check up for match
+                if y >= THRESH {
+                    let _ = ((y - THRESH)..y)
+                        .map(|y| {
+                            self.grid[(x, y)]
+                                .as_ref()
+                                .expect("Should have already been processed and therfore be Some!")
+                                .bind()
+                                .tile
+                        })
+                        .all_equal_value()
+                        .inspect(|value| possible_tiles.retain(|elem| elem != value));
+                }
+                // Instance new tile node with random tile from possible tiles
+                let mut node = TileNode::instance_new(
+                    *possible_tiles.choose_weighted(&mut rng, |_| 1).unwrap(),
+                );
+
+                // Setup node in board and scene
+                self.base_mut().add_child(&node);
+                node.set_position(self.index_to_vec2(index));
+                node.bind_mut().index = index;
+                self.grid[index] = Some(node);
+            }
+        }
     }
 }
