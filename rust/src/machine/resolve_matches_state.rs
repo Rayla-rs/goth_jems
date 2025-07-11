@@ -1,6 +1,7 @@
 use super::{refresh_board_state::RefreshBoardState, state::*};
 use crate::board::Board;
 use godot::{classes::Tween, prelude::*};
+use itertools::Itertools;
 
 /// State for resolving actions related to a match occuring on the board.
 pub struct ResolveMatchesState {
@@ -24,6 +25,7 @@ impl State for ResolveMatchesState {
         self.matches
             .iter()
             .flat_map(|r#match| r#match.iter())
+            .unique()
             .for_each(|index| {
                 Board::remove_tile(board, *index);
             });

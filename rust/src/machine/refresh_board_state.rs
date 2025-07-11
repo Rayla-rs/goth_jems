@@ -11,6 +11,7 @@ pub struct RefreshBoardState {
     tweens: Vec<Gd<Tween>>,
 }
 
+// refactor to require less iterations!
 impl State for RefreshBoardState {
     fn start(&mut self, board: &mut Gd<Board>) {
         // For top row

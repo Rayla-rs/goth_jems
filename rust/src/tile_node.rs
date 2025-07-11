@@ -1,6 +1,6 @@
 use crate::{board::Board, tile::Tile};
 use godot::{
-    classes::{ResourceLoader, Sprite2D, Texture2D, Tween},
+    classes::{AnimatedSprite2D, ResourceLoader, Sprite2D, Texture2D, Tween},
     prelude::*,
 };
 
@@ -17,13 +17,17 @@ pub struct TileNode {
     base: Base<Node2D>,
 }
 
-/// Duration of move tween in seconds.
-const TWEEN_DURATION: f64 = 1f64;
+/// Duration of move tween in seconds per tile.
+const TWEEN_DURATION: f64 = 0.25f64;
 
 impl TileNode {
     /// Moves node to new pos with a tween. Use tween.is_running() to check if
     /// it has finished executing
     pub fn tween_move(&mut self, board: &Gd<Board>, new_index: (usize, usize)) -> Gd<Tween> {
+        let new_pos = board.bind().index_to_vec2(new_index);
+        let duration = ((self.base().get_position().distance_to(new_pos) / board.bind().spacing)
+            as f64)
+            * TWEEN_DURATION;
         self.index = new_index;
 
         // Create move tween
@@ -36,8 +40,8 @@ impl TileNode {
         tween.tween_property(
             &self.base().clone(),
             "position",
-            &board.bind().index_to_vec2(new_index).to_variant(),
-            TWEEN_DURATION,
+            &new_pos.to_variant(),
+            duration,
         );
 
         tween
@@ -65,6 +69,29 @@ impl TileNode {
         );
         node
     }
-}
 
-// instance from tile
+    /// Instance and attach shatter particle to parent of this node
+    /// Particle is free'd when its animation finishes
+    /// The animation is determined by the tile property of self
+    pub fn instance_shatter_particle(&mut self) {
+        let mut node = ResourceLoader::singleton()
+            .load("res://prefabs/shatter.tscn")
+            .unwrap()
+            .cast::<PackedScene>()
+            .instantiate_as::<AnimatedSprite2D>();
+
+        self.base_mut()
+            .get_parent()
+            .as_mut()
+            .unwrap()
+            .add_child(&node);
+
+        // Play anim for tile
+        node.play_ex().name(self.tile.to_str()).done();
+
+        godot::task::spawn(async move {
+            node.signals().animation_finished().to_future().await;
+            node.queue_free();
+        });
+    }
+}

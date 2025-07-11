@@ -139,7 +139,7 @@ impl Board {
             let mut start_tile = grid[(row, start_col)];
 
             // Iterate through colm
-            for col in 1..grid.cols() - 1 {
+            for col in 1..grid.cols() {
                 let current_tile = grid[(row, col)];
                 if start_tile != current_tile {
                     if col - start_col > THRESH {
@@ -153,7 +153,7 @@ impl Board {
             }
 
             // Check for match at end
-            if start_tile == grid[(row, grid.cols() - 1)] && grid.cols() - start_col > THRESH {
+            if grid.cols() - start_col > THRESH {
                 matches.push((start_col..grid.cols()).map(|col| (row, col)).collect_vec());
             }
         }

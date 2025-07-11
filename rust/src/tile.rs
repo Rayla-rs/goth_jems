@@ -43,13 +43,17 @@ impl Tile {
 
     /// Godot string representation for tile node dictionary access
     pub fn to_gstring(self) -> GString {
-        GString::from(match self {
+        GString::from(self.to_str())
+    }
+
+    pub fn to_str(self) -> &'static str {
+        match self {
             Tile::Dagger => "dagger",
             Tile::Coffin => "coffin",
             Tile::Spider => "spider",
             Tile::Bear => "bear",
             Tile::Diamond => "diamond",
             _ => "eye",
-        })
+        }
     }
 }
