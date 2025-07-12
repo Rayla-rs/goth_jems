@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bndydubpaewoo"
+path="res://.godot/imported/Loop08.wav-af234220dd9f6cb068ae4a1439685d27.sample"
+
+[deps]
+
+source_file="res://No-Fi_Game_Sounds/ByteBeat Loops/Loop08.wav"
+dest_files=["res://.godot/imported/Loop08.wav-af234220dd9f6cb068ae4a1439685d27.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

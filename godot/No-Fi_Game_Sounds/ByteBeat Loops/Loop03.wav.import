@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://v6ytln72t4oi"
+path="res://.godot/imported/Loop03.wav-37ca22d729e6fccc8e75e7f1aec830ec.sample"
+
+[deps]
+
+source_file="res://No-Fi_Game_Sounds/ByteBeat Loops/Loop03.wav"
+dest_files=["res://.godot/imported/Loop03.wav-37ca22d729e6fccc8e75e7f1aec830ec.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

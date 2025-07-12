@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://doqf0qdutwuv8"
+path="res://.godot/imported/Lentikula - 08 The Final Descent.wav-f7cdc2e6c182d72f878ebe458405953d.sample"
+
+[deps]
+
+source_file="res://music/Wav/Lentikula - 08 The Final Descent.wav"
+dest_files=["res://.godot/imported/Lentikula - 08 The Final Descent.wav-f7cdc2e6c182d72f878ebe458405953d.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

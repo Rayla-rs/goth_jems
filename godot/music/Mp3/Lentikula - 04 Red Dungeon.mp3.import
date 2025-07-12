@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://d11i3m7edotdy"
+path="res://.godot/imported/Lentikula - 04 Red Dungeon.mp3-564e3681c57674dc99009be5ff6cf115.mp3str"
+
+[deps]
+
+source_file="res://music/Mp3/Lentikula - 04 Red Dungeon.mp3"
+dest_files=["res://.godot/imported/Lentikula - 04 Red Dungeon.mp3-564e3681c57674dc99009be5ff6cf115.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

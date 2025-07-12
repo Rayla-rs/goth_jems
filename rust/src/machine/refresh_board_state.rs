@@ -22,48 +22,50 @@ impl State for RefreshBoardState {
         let cols = board.bind().grid.cols();
 
         for row in 0..rows {
-            for col in 0..cols {
+            // Number empty in row
+            let mut count = 0;
+            for col in (0..cols).rev() {
                 let index = (row, col);
                 let tile = board.bind().get_tile(index).clone();
 
-                if index.1 == 0 && tile.is_none() {
-                    // Tile is on the top row and is empty
-                    // Spawn a new tile there and move it into place from above
+                match tile {
+                    Some(mut tile_node) => {
+                        if count > 0 {
+                            let new_index = (row, col + count);
+                            board
+                                .bind_mut()
+                                .set_tile(new_index, Some(tile_node.clone()));
+                            board.bind_mut().set_tile(tile_node.bind().index, None);
 
-                    let mut tile_node = TileNode::instance_new(Tile::rand());
-                    // set position to tile position offseted up by one
-                    tile_node.set_position(
-                        board.bind().index_to_vec2(index) - Vector2::new(0.0, board.bind().spacing),
-                    );
-                    // Add to tree for godot
-                    board.add_child(&tile_node);
-                    // Add move tween
-                    self.tweens
-                        .push(tile_node.bind_mut().tween_move(board, index));
-                    // Set tile in board
-                    board.bind_mut().set_tile(index, Some(tile_node));
-                } else {
-                    if let Some(tile) = tile.as_ref() {
-                        let bellow_index = (tile.bind().index.0, tile.bind().index.1 + 1);
-                        if board
-                            .bind()
-                            .grid
-                            .get(bellow_index.0, bellow_index.1)
-                            .is_some_and(|bellow| bellow.is_none())
-                        {
-                            // Tile is not the top or bottum row, is some, and is above a none space
-
-                            // Move to space bellow
-                            board.bind_mut().set_tile(bellow_index, Some(tile.clone()));
-                            board.bind_mut().set_tile(tile.bind().index, None);
-
-                            // Add tween to tweens
                             self.tweens
-                                .push(tile.clone().bind_mut().tween_move(board, bellow_index));
+                                .push(tile_node.bind_mut().tween_move(board, new_index));
                         }
+                    }
+                    None => {
+                        count += 1;
                     }
                 }
             }
+            for offset in 0..count {
+                let to_index = (row, offset);
+
+                let mut tile_node = TileNode::instance_new(Tile::rand());
+                // set position to tile position offseted up by one
+                tile_node.set_position(
+                    board.bind().index_to_vec2((row, 0))
+                        - Vector2::new(0.0, board.bind().spacing * (count - offset) as f32),
+                );
+                // Add to tree for godot
+                board.add_child(&tile_node);
+                // Add move tween
+                self.tweens
+                    .push(tile_node.bind_mut().tween_move(board, to_index));
+                // Set tile in board
+                board.bind_mut().set_tile(to_index, Some(tile_node));
+
+                //TODO
+            }
+            // spawn count tiles on top
         }
     }
 
