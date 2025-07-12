@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://boo1q146wkc43"
+path="res://.godot/imported/Lentikula - 06 Madness.wav-5cac981de8e1602a2c028ed529561180.sample"
+
+[deps]
+
+source_file="res://music/Wav/Lentikula - 06 Madness.wav"
+dest_files=["res://.godot/imported/Lentikula - 06 Madness.wav-5cac981de8e1602a2c028ed529561180.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

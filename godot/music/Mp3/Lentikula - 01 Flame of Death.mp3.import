@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://d2ne0kqakebcx"
+path="res://.godot/imported/Lentikula - 01 Flame of Death.mp3-241d1ad567ec7d93ddfe8a9669a9e529.mp3str"
+
+[deps]
+
+source_file="res://music/Mp3/Lentikula - 01 Flame of Death.mp3"
+dest_files=["res://.godot/imported/Lentikula - 01 Flame of Death.mp3-241d1ad567ec7d93ddfe8a9669a9e529.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

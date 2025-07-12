@@ -1,4 +1,4 @@
-[gd_scene load_steps=188 format=3 uid="uid://dqp00a1yk0pa2"]
+[gd_scene load_steps=192 format=3 uid="uid://dqp00a1yk0pa2"]
 
 [ext_resource type="Texture2D" uid="uid://bdq1kiqk3aorg" path="res://assets/coffin_export_Shatter.png" id="1_ofguo"]
 [ext_resource type="Texture2D" uid="uid://cfhfchv0pmxcb" path="res://assets/teddy_export_Shatter.png" id="1_y0vks"]
@@ -6,6 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://b3msgedh58kwl" path="res://assets/diamond_export_Shatter.png" id="3_2adod"]
 [ext_resource type="Texture2D" uid="uid://c4ac0ngvaluo6" path="res://assets/ico_export_Shatter.png" id="4_mvmbu"]
 [ext_resource type="Texture2D" uid="uid://cn6yrrmhtc4ry" path="res://assets/pearl_export_Shatter.png" id="5_eqio3"]
+[ext_resource type="AudioStream" uid="uid://1ghfxnibvlcp" path="res://No-Fi_Game_Sounds/Floatbeat/06.wav" id="7_p3w1q"]
+[ext_resource type="AudioStream" uid="uid://b1j3lm0vou4tg" path="res://No-Fi_Game_Sounds/Floatbeat/09.wav" id="8_5b6iy"]
+[ext_resource type="AudioStream" uid="uid://gpwtm3bh42tg" path="res://No-Fi_Game_Sounds/Floatbeat/12.wav" id="9_85sx1"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ur0pc"]
 atlas = ExtResource("1_y0vks")
@@ -820,7 +823,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_bnw4o")
 }],
-"loop": true,
+"loop": false,
 "name": &"bear",
 "speed": 60.0
 }, {
@@ -915,7 +918,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xyu1w")
 }],
-"loop": true,
+"loop": false,
 "name": &"coffin",
 "speed": 60.0
 }, {
@@ -1010,7 +1013,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_s75ut")
 }],
-"loop": true,
+"loop": false,
 "name": &"dagger",
 "speed": 60.0
 }, {
@@ -1105,7 +1108,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_y5ijf")
 }],
-"loop": true,
+"loop": false,
 "name": &"diamond",
 "speed": 60.0
 }, {
@@ -1200,7 +1203,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_87y1t")
 }],
-"loop": true,
+"loop": false,
 "name": &"eye",
 "speed": 60.0
 }, {
@@ -1295,14 +1298,22 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_gim32")
 }],
-"loop": true,
+"loop": false,
 "name": &"spider",
 "speed": 60.0
 }]
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_natg7"]
+streams_count = 3
+stream_0/stream = ExtResource("7_p3w1q")
+stream_1/stream = ExtResource("8_5b6iy")
+stream_2/stream = ExtResource("9_85sx1")
+
 [node name="Shatter" type="AnimatedSprite2D"]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_kgy42")
-animation = &"coffin"
-frame = 10
-frame_progress = 0.40688
+animation = &"eye"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_natg7")
+autoplay = true

@@ -18,7 +18,7 @@ pub struct TileNode {
 }
 
 /// Duration of move tween in seconds per tile.
-const TWEEN_DURATION: f64 = 0.25f64;
+const TWEEN_DURATION: f64 = 0.15f64;
 
 impl TileNode {
     /// Moves node to new pos with a tween. Use tween.is_running() to check if
@@ -85,6 +85,8 @@ impl TileNode {
             .as_mut()
             .unwrap()
             .add_child(&node);
+
+        node.set_position(self.base().get_position());
 
         // Play anim for tile
         node.play_ex().name(self.tile.to_str()).done();

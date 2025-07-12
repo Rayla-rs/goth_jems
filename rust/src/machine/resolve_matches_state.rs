@@ -27,8 +27,15 @@ impl State for ResolveMatchesState {
             .flat_map(|r#match| r#match.iter())
             .unique()
             .for_each(|index| {
+                board
+                    .bind_mut()
+                    .get_tile(*index)
+                    .unwrap()
+                    .bind_mut()
+                    .instance_shatter_particle();
                 Board::remove_tile(board, *index);
             });
+        // spawn sound per match
     }
 
     fn process(&mut self, board: &mut Gd<Board>, _delta: f64) -> Instruction {

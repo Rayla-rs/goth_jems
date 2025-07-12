@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bng4luegdkusj"
+path="res://.godot/imported/Lentikula - 05 The Forgotten Library.mp3-d11d94c36ffb60d882aed89f257a53a9.mp3str"
+
+[deps]
+
+source_file="res://music/Mp3/Lentikula - 05 The Forgotten Library.mp3"
+dest_files=["res://.godot/imported/Lentikula - 05 The Forgotten Library.mp3-d11d94c36ffb60d882aed89f257a53a9.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

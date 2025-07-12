@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://b0642qmsq631w"]
+
+[ext_resource type="AudioStream" uid="uid://d2ne0kqakebcx" path="res://music/Mp3/Lentikula - 01 Flame of Death.mp3" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://c3o6x0cs8rs4o" path="res://board.tscn" id="1_ig7tw"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+offset_left = 52.0
+offset_top = 45.0
+offset_right = 92.0
+offset_bottom = 68.0
+text = "meow"
+
+[node name="Lentikula-01FlameOfDeath2" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(-21, 506)
+stream = ExtResource("1_0xm2m")
+autoplay = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+
+[node name="Board" parent="." instance=ExtResource("1_ig7tw")]
+position = Vector2(275, 60)

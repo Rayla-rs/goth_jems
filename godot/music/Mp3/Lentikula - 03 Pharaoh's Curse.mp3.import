@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://trip73rl20hv"
+path="res://.godot/imported/Lentikula - 03 Pharaoh's Curse.mp3-27db7e01196d1252e550c49d01fde5c5.mp3str"
+
+[deps]
+
+source_file="res://music/Mp3/Lentikula - 03 Pharaoh's Curse.mp3"
+dest_files=["res://.godot/imported/Lentikula - 03 Pharaoh's Curse.mp3-27db7e01196d1252e550c49d01fde5c5.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
