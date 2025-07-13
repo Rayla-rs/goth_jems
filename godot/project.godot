@@ -13,6 +13,8 @@ config_version=5
 config/name="goth_jems"
 run/main_scene="uid://btph7ald3y0y1"
 config/features=PackedStringArray("4.4")
+config/icon="uid://bcmb02rjrpbfa"
+config/windows_native_icon="res://pearl-spider.ico"
 
 [configuration]
 
