@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://3v0udvu256s7"]
 
-[ext_resource type="Script" uid="uid://cffox4ywp42w4" path="res://game_ui.gd" id="1_ue6oa"]
+[gd_scene load_steps=3 format=3 uid="uid://csxsfbs4l7vo"]
+
+[ext_resource type="Script" uid="uid://bajbs26rves7f" path="res://game_ui.gd" id="1_ue6oa"]
+
 
 [sub_resource type="Theme" id="Theme_d2rst"]
 default_font_size = 30

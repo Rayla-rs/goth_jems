@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://c4xl0tqm1fyuq"]
+[gd_scene load_steps=2 format=3 uid="uid://cqfhvy3s37ttx"]
 
-[ext_resource type="Texture2D" path="res://assets/background.png" id="1_oabld"]
+[ext_resource type="Texture2D" uid="uid://ddhniu0xwxpmb" path="res://assets/background.png" id="1_oabld"]
+
 
 [node name="Background" type="Control"]
 top_level = true

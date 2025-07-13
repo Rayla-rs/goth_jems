@@ -13,6 +13,7 @@ pub const THRESH: usize = 2;
 #[derive(GodotClass)]
 #[class(base = Node2D)]
 pub struct Board {
+    score: Score,
     #[export]
     pub spacing: f32,
     pub controller: Option<Gd<Controller>>,
@@ -163,7 +164,7 @@ impl Board {
 
     /// Score by number of matches by the accumulated number of tiles in matches.
     /// Can include the same tile up to twice if a row and colm match both contain it.
-    fn score_matches(matches: &Vec<Vec<(usize, usize)>>) -> usize {
+    fn score_matches(streak: u32, matches: &Vec<Vec<(usize, usize)>>) -> usize {
         matches.len() * matches.iter().fold(0, |acc, e| acc + e.len())
     }
 
@@ -218,5 +219,27 @@ impl Board {
                 self.grid[index] = Some(node);
             }
         }
+    }
+}
+
+#[godot_api]
+impl Board {
+    #[signal]
+    fn update_streak(amount: u32);
+    #[signal]
+    fn update_hits(amount: u32);
+    #[signal]
+    fn resolve_interum();
+}
+
+impl Board {
+    pub fn update_streak(&mut self, amount: u32) {
+        self.signals().update_streak().emit(amount);
+    }
+    pub fn update_hits(&mut self, amount: u32) {
+        self.signals().update_hits().emit(amount);
+    }
+    pub fn resolve_interum(&mut self) {
+        self.signals().resolve_interum().emit();
     }
 }
