@@ -1,0 +1,52 @@
+[gd_scene load_steps=3 format=3 uid="uid://3v0udvu256s7"]
+
+[ext_resource type="Script" uid="uid://cffox4ywp42w4" path="res://game_ui.gd" id="1_ue6oa"]
+
+[sub_resource type="Theme" id="Theme_d2rst"]
+default_font_size = 30
+
+[node name="GameUI" type="Control"]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_d2rst")
+script = ExtResource("1_ue6oa")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -123.0
+offset_right = 123.0
+offset_bottom = 42.0
+grow_horizontal = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="ScoreLabel" type="RichTextLabel" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[wave amp=25
+.0 freq=4
+.0 connected=1]Score:0[/wave]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="VSeparator" type="VSeparator" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="InterumLabel" type="RichTextLabel" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "200 (x20)"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0

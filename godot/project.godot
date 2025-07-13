@@ -20,6 +20,12 @@ entry_symbol="gdext_rust_init"
 compatibility_minimum=4.1
 reloadable=true
 
+[display]
+
+window/size/viewport_width=640
+window/size/viewport_height=640
+window/size/resizable=false
+
 [dotnet]
 
 project/assembly_name="UnnamedProject"
