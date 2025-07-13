@@ -6,6 +6,10 @@ pub struct DefaultState;
 
 /// Base state for state machine. Added by default.
 impl State for DefaultState {
+    fn start(&mut self, board: &mut Gd<Board>) {
+        // Update ui
+        board.bind_mut().resolve_interum();
+    }
     fn process(&mut self, _board: &mut Gd<Board>, _delta: f64) -> Instruction {
         Instruction::Continue
     }

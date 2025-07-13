@@ -3,8 +3,7 @@
 [sub_resource type="Theme" id="Theme_rhts7"]
 default_font_size = 40
 
-[node name="MainMenu" type="Control"]
-layout_mode = 3
+[node name="MainMenu" type="MainMenu"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -26,13 +25,17 @@ layout_mode = 2
 text = "Play"
 
 [node name="SettingsButton" type="Button" parent="VBoxContainer"]
+visible = false
 layout_mode = 2
 text = "Settings"
 
 [node name="CreditsButton" type="Button" parent="VBoxContainer"]
+visible = false
 layout_mode = 2
 text = "Credits"
 
 [node name="ExitButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Exit"
+
+[connection signal="pressed" from="VBoxContainer/ExitButton" to="." method="exit_game"]

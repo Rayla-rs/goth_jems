@@ -44,6 +44,8 @@ impl State for SwapState {
                         // Swap failed so undo action
                         Instruction::DropPush(Box::new(SwapState::new(self.b, self.a, true)))
                     } else {
+                        //TODO update board state for score
+
                         // Swap succeeded (board has match) so resolve matches
                         Instruction::DropPush(Box::new(ResolveMatchesState::new(matches)))
                     }

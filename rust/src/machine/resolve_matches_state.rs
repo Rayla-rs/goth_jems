@@ -20,8 +20,6 @@ impl ResolveMatchesState {
 
 impl State for ResolveMatchesState {
     fn start(&mut self, board: &mut Gd<Board>) {
-        //TODO create destroy tweens
-        // create score ui tween
         self.matches
             .iter()
             .flat_map(|r#match| r#match.iter())
@@ -35,7 +33,15 @@ impl State for ResolveMatchesState {
                     .instance_shatter_particle();
                 Board::remove_tile(board, *index);
             });
-        // spawn sound per match
+
+        // Update ui
+        board.bind_mut().update_streak(self.matches.len() as u32);
+        board.bind_mut().update_hits(
+            self.matches
+                .iter()
+                .flat_map(|r#match| r#match.iter())
+                .count() as u32,
+        );
     }
 
     fn process(&mut self, board: &mut Gd<Board>, _delta: f64) -> Instruction {
