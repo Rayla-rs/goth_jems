@@ -4,7 +4,6 @@ use godot::{classes::ISprite2D, prelude::*};
 mod board;
 mod controller;
 mod machine;
-mod main_menu;
 mod patterns;
 mod tile;
 mod tile_node;

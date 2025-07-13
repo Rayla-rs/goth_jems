@@ -11,7 +11,7 @@ var total_streak = 0
 var total_hits = 0
 
 # Other
-@export var duration = 0.5;
+@export var duration = 0.25;
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -20,7 +20,7 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	update_score_label()
 	update_interum_label()
 	pass
@@ -36,23 +36,25 @@ func update_score_label() -> void:
 func update_streak(amount: int) -> void:
 	total_streak += amount
 	var tween = get_tree().create_tween()
-	tween.tween_property(self, "score", total_streak, duration)
+	tween.tween_property(self, "streak", total_streak, duration)
 
 func update_hits(amount: int) -> void:
 	total_hits += amount
 	var tween = get_tree().create_tween()
-	tween.tween_property(self, "score", total_hits, duration)
+	tween.tween_property(self, "hits", total_hits, duration)
 
 func update_interum_label() -> void:
 	if hits == 0:
 		$PanelContainer/HBoxContainer/InterumLabel.text = ""
 	else:
 		$PanelContainer/HBoxContainer/InterumLabel.text = "(" + str(hits) + ")" + " (x" + str(streak) + ")"
-	
+
+# Updates score using interum values
 func resolve_interum() -> void:
-	total_score += total_hits * streak
+	total_score += total_hits * total_streak
 	total_hits = 0
 	total_streak = 0
+	update_streak(0)
+	update_hits(0)
 	update_score(0)
-	pass
 	

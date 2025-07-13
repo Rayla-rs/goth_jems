@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://b0642qmsq631w"]
+
+[ext_resource type="PackedScene" uid="uid://csxsfbs4l7vo" path="res://prefabs/game_ui.tscn" id="1_jyhfs"]
+[ext_resource type="AudioStream" uid="uid://d2ne0kqakebcx" path="res://music/Mp3/Lentikula - 01 Flame of Death.mp3" id="2_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://c3o6x0cs8rs4o" path="res://prefabs/board.tscn" id="3_tefeu"]
+[ext_resource type="PackedScene" uid="uid://cqfhvy3s37ttx" path="res://prefabs/background.tscn" id="4_o6xl0"]
+
+[node name="Main" type="Node2D"]
+
+[node name="GameUI" parent="." instance=ExtResource("1_jyhfs")]
+z_index = 1
+clip_contents = true
+custom_minimum_size = Vector2(34.755, 16.815)
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 640.0
+offset_bottom = 640.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="Lentikula-01FlameOfDeath2" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(-21, 506)
+stream = ExtResource("2_tbgi4")
+autoplay = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+
+[node name="Board" parent="." instance=ExtResource("3_tefeu")]
+position = Vector2(96, 96)
+
+[node name="Background" parent="." instance=ExtResource("4_o6xl0")]
+
+[connection signal="resolve_interum" from="Board" to="GameUI" method="resolve_interum"]
+[connection signal="update_hits" from="Board" to="GameUI" method="update_hits"]
+[connection signal="update_streak" from="Board" to="GameUI" method="update_streak"]

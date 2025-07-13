@@ -13,7 +13,6 @@ pub const THRESH: usize = 2;
 #[derive(GodotClass)]
 #[class(base = Node2D)]
 pub struct Board {
-    score: Score,
     #[export]
     pub spacing: f32,
     pub controller: Option<Gd<Controller>>,
