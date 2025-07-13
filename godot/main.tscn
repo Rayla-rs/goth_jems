@@ -1,9 +1,11 @@
 [gd_scene load_steps=5 format=3 uid="uid://b0642qmsq631w"]
 
 [ext_resource type="AudioStream" uid="uid://d2ne0kqakebcx" path="res://music/Mp3/Lentikula - 01 Flame of Death.mp3" id="1_0xm2m"]
+
 [ext_resource type="PackedScene" uid="uid://csxsfbs4l7vo" path="res://game_ui.tscn" id="1_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://c3o6x0cs8rs4o" path="res://board.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://cqfhvy3s37ttx" path="res://background.tscn" id="3_h2yge"]
+
 
 [node name="Main" type="Node2D"]
 

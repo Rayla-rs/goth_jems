@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://ddhniu0xwxpmb" path="res://assets/background.png" id="1_oabld"]
 
+
 [node name="Background" type="Control"]
 top_level = true
 layout_mode = 3
