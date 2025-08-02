@@ -2,7 +2,7 @@
 - CGRA252
 - Assignment 01
 - Created by: Rayla Wass
-- (TODO: VIDEO)
+- https://drive.google.com/drive/folders/1v6m6aM0K0Bc2j8t2Cuj3Fd2UQ91hJaz6?usp=drive_link
 ## Description
 The main game mechanic is swapping tile positions with vertically and horizontally adjacent tiles. This mechanic allows the player to cause cascading effects that a;ter the board state and score points. If the swap does not create a match immediately, it is undone.
 
