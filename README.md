@@ -4,7 +4,7 @@
 - Created by: Rayla Wass
 - https://drive.google.com/drive/folders/1v6m6aM0K0Bc2j8t2Cuj3Fd2UQ91hJaz6?usp=drive_link
 ## Description
-The main game mechanic is swapping tile positions with vertically and horizontally adjacent tiles. This mechanic allows the player to cause cascading effects that a;ter the board state and score points. If the swap does not create a match immediately, it is undone.
+The main game mechanic is swapping tile positions with vertically and horizontally adjacent tiles. This mechanic allows the player to cause cascading effects that after the board state and score points. If the swap does not create a match immediately, it is undone.
 
 The hardest part of creating this game was refreshing the board after resolving matches. I went through a few different models, the first of which required more refreshes as it only dropped tiles if there was an empty space below it. For example if a tile at row 2 was removed, the tile in row one would drop, then the tile in row 0 would drop, and finally, a new tile would be introduced and dropped into row 0. Visually this behaviour was very mechanical. My new model iterates from the bottom of the board and drops tiles by the total number of hollow tiles below it. Using the same example above, this implementation would drop the tile in row 1 and 0 and instance and drop a new tile into row 0 at the same time. Both methods were valid, however I much prefer the new model.
 
